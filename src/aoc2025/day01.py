@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import dataclasses
 import logging
-import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
@@ -19,21 +18,13 @@ class Direction(Enum):
 
 @dataclass
 class Rotation:
-    pattern: ClassVar[re.Pattern[str]] = re.compile(
-        r"(?P<direction>[LR])(?P<distance>\d+)"
-    )
-
     direction: Direction
     distance: int
 
     @classmethod
     def parse(cls, rotation_str: str) -> Rotation:
-        matchobj = cls.pattern.fullmatch(rotation_str)
-        if matchobj is None:
-            raise ValueError(f"Invalid rotation: {rotation_str!r}")
-        direction_str, distance_str = matchobj.group("direction", "distance")
-        direction = Direction[direction_str]
-        distance = int(distance_str)
+        direction = Direction[rotation_str[0]]
+        distance = int(rotation_str[1:])
         return Rotation(direction, distance)
 
     def __str__(self) -> str:
@@ -66,7 +57,7 @@ def part1(document: Sequence[str]) -> int:
     password = 0
     dial = Dial()
     for line in document:
-        rotation = Rotation.parse(line.strip())
+        rotation = Rotation.parse(line)
         dial.rotate(rotation)
         if dial.position == 0:
             password += 1
@@ -77,7 +68,7 @@ def part2(document: Sequence[str]) -> int:
     password = 0
     dial = Dial()
     for line in document:
-        rotation = Rotation.parse(line.strip())
+        rotation = Rotation.parse(line)
         password += dial.count_zeros(rotation)
         dial.rotate(rotation)
     return password
