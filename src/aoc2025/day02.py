@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import math
+import re
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,12 +35,11 @@ class ProductIdRange:
             tens += 1
             value = 10**tens
         factor: int = 10 ** ((tens + 1) // 2)
-        half = value // factor
-        whole = half * factor + half
-        if whole < value:
-            half += 1
-            whole = half * factor + half
-        return whole
+        top = value // factor
+        bottom = value % factor
+        if top < bottom:
+            top += 1
+        return top * factor + top
 
     def invalid_ids(self) -> Iterator[int]:
         invalid_id = self.next_invalid_id(self.min)
@@ -58,8 +58,21 @@ def part1(id_ranges_str: str) -> int:
     return sum(ProductIdRange.all_invalid_ids(id_ranges))
 
 
+def part2_scuffed(id_ranges_str: str) -> int:
+    id_ranges = ProductIdRange.parse_list(id_ranges_str)
+    pattern = re.compile(r"(\d+)\1+")  # Not even a regular expression!
+    return sum(
+        value
+        for id_range in id_ranges
+        for value in range(id_range.min, id_range.max + 1)
+        if pattern.fullmatch(str(value)) is not None
+    )
+
+
 if __name__ == "__main__":
     with open(Path(__file__).parent / "input" / "day02.txt") as file:
         [id_ranges_str] = file
     total = part1(id_ranges_str)
     print(f"Part 1: {total}")
+    total = part2_scuffed(id_ranges_str)
+    print(f"Part 2: {total}")

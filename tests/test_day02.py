@@ -2,7 +2,7 @@ import re
 
 from pytest import fixture
 
-from aoc2025.day02 import ProductIdRange, part1
+from aoc2025.day02 import ProductIdRange, part1, part2_scuffed
 
 
 def id_is_invalid(id: int) -> bool:
@@ -48,3 +48,8 @@ def test_example_invalid_ids(example1: str) -> None:
 def test_part1_example(example1: str) -> None:
     total = part1(example1)
     assert total == 1227775554
+
+
+def test_part2_example_scuffed(example1: str) -> None:
+    total = part2_scuffed(example1)
+    assert total == 4174379265
