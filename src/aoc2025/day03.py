@@ -5,7 +5,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 
-def part1(battery_banks: Sequence[str]):
+def part1(battery_banks: Sequence[str]) -> int:
     total = 0
     for battery_bank in battery_banks:
         battery_bank = battery_bank.strip()
@@ -23,7 +23,7 @@ def part1(battery_banks: Sequence[str]):
     return total
 
 
-def part2(battery_banks: Sequence[str]):
+def part2(battery_banks: Sequence[str]) -> int:
     total = 0
     for battery_bank in battery_banks:
         battery_bank = battery_bank.strip()

@@ -22,16 +22,13 @@ def part1(worksheet: Sequence[str]) -> int:
 
 
 def part2(worksheet: Sequence[str]) -> int:
-    columns = []
-    column = []
-    columns.append(column)
+    columns: list[list[int]] = [[]]
     for column_str in zip(*worksheet[:-1]):
         value_str = "".join(column_str).strip()
         if not value_str:
-            column = []
-            columns.append(column)
+            columns.append([])
             continue
-        column.append(int(value_str))
+        columns[-1].append(int(value_str))
     ops = [operators[cell] for cell in worksheet[-1].strip().split()]
     total = 0
     for op, column in zip(ops, columns):

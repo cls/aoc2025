@@ -4,7 +4,7 @@ from aoc2025.day03 import part1, part2
 
 
 @fixture
-def example1():
+def example1() -> list[str]:
     return [
         "987654321111111\n",
         "811111111111119\n",
@@ -13,11 +13,11 @@ def example1():
     ]
 
 
-def test_part1_example(example1):
+def test_part1_example(example1: list[str]) -> None:
     total = part1(example1)
     assert total == 357
 
 
-def test_part2_example(example1):
+def test_part2_example(example1: list[str]) -> None:
     total = part2(example1)
     assert total == 3121910778619

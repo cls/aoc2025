@@ -1,7 +1,8 @@
+from collections.abc import Sequence
 from pathlib import Path
 
 
-def part1(lines):
+def part1(lines: Sequence[str]) -> int:
     count = 0
     it = iter(lines)
     beams = {i for i, c in enumerate(next(it)) if c == "S"}
@@ -19,13 +20,13 @@ def part1(lines):
     return count
 
 
-def part2(lines):
+def part2(lines: Sequence[str]) -> int:
     count = 0
     it = iter(lines)
     beams = {i: 1 for i, c in enumerate(next(it)) if c == "S"}
     for line in it:
         splitters = {i for i, c in enumerate(line) if c == "^"}
-        new_beams = {}
+        new_beams: dict[int, int] = {}
         for beam, paths in beams.items():
             if beam in splitters:
                 new_beams[beam - 1] = new_beams.get(beam - 1, 0) + paths

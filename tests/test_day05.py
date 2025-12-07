@@ -6,7 +6,7 @@ from aoc2025.day05 import Database, part1, part2
 
 
 @fixture
-def example1():
+def example1() -> list[str]:
     return [
         "3-5\n",
         "10-14\n",
@@ -22,13 +22,13 @@ def example1():
     ]
 
 
-def test_part1_example(example1):
+def test_part1_example(example1: list[str]) -> None:
     database = Database.parse(example1)
     count = part1(database)
     assert count == 3
 
 
-def test_part2_example(example1):
+def test_part2_example(example1: list[str]) -> None:
     database = Database.parse(example1)
     count = part2(database)
     assert count == 14
